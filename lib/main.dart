@@ -6,12 +6,26 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final miniature = Miniature(
+  final miniature1 = Miniature(
     name: 'Captain',
     game: 'Warhammer 40000',
     faction: 'Space Marines',
     status: Status.painted,
   );
+  final miniature2 = Miniature(
+    name: 'Terminator squad',
+    game: 'Warhammer 40000',
+    faction: 'Space Marines',
+    status: Status.painted,
+  );
+  final miniature3 = Miniature(
+    name: 'Redemptor Dreadnought',
+    game: 'Warhammer 40000',
+    faction: 'Space Marines',
+    status: Status.painted,
+  );
+  List<Miniature> get miniatures => [miniature1, miniature2, miniature3];
+
   MyApp({super.key});
 
   // This widget is the root of your application.
@@ -23,10 +37,17 @@ class MyApp extends StatelessWidget {
       home: Column(
         children: [
           Text('Hobby Workshop'),
-          Text(miniature.name),
-          Text(miniature.game),
-          Text(miniature.faction),
-          Text(miniature.status.name),
+          for (final miniature in miniatures)
+            Card(
+              child: Column(
+                children: [
+                  Text("Name: ${miniature.name}"),
+                  Text("Game: ${miniature.game}"),
+                  Text("Faction: ${miniature.faction}"),
+                  Text("Status: ${miniature.status.name}"),
+                ],
+              ),
+            ),
         ],
       ),
     );
