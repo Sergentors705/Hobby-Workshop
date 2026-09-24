@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobby_workshop/models/miniature.dart';
+import 'package:hobby_workshop/widgets/miniature_card.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,16 +39,7 @@ class MyApp extends StatelessWidget {
         children: [
           Text('Hobby Workshop'),
           for (final miniature in miniatures)
-            Card(
-              child: Column(
-                children: [
-                  Text("Name: ${miniature.name}"),
-                  Text("Game: ${miniature.game}"),
-                  Text("Faction: ${miniature.faction}"),
-                  Text("Status: ${miniature.status.name}"),
-                ],
-              ),
-            ),
+            MiniatureCard(miniature: miniature),
         ],
       ),
     );
