@@ -18,6 +18,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final TextEditingController _textEditingController = TextEditingController();
+  Status selectedStatus = Status.painted;
   final List<Miniature> miniatures = [
     Miniature(
       name: 'Captain',
@@ -44,29 +46,44 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Hobby Workshop',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: Column(
-        children: [
-          Column(
-            children: [
-              Text('Hobby Workshop'),
-              for (final miniature in miniatures)
-                MiniatureCard(miniature: miniature),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () => setState(() {
-              miniatures.add(
-                Miniature(
-                  name: 'Repulsor Executioneer',
-                  game: 'Warhammer 40000',
-                  faction: 'Space Marines',
-                  status: Status.painted,
+      home: Scaffold(
+        body: Column(
+          children: [
+            Column(
+              children: [
+                Text('Hobby Workshop'),
+                for (final miniature in miniatures)
+                  MiniatureCard(miniature: miniature),
+              ],
+            ),
+            DropdownButton<Status>(
+              value: selectedStatus,
+              onChanged: (value) {
+                setState(() {
+                  selectedStatus = value!;
+                });
+              },
+              items: [
+                DropdownMenuItem<Status>(
+                  value: Status.unassembled,
+                  child: Text('Unassebled'),
                 ),
-              );
-            }),
-            child: Text('Add test miniature'),
-          ),
-        ],
+                DropdownMenuItem<Status>(
+                  value: Status.assembled,
+                  child: Text('Assembled'),
+                ),
+                DropdownMenuItem<Status>(
+                  value: Status.basecoated,
+                  child: Text('Basecoated'),
+                ),
+                DropdownMenuItem<Status>(
+                  value: Status.painted,
+                  child: Text('Painted'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
