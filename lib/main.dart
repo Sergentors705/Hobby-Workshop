@@ -18,7 +18,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _gameController = TextEditingController();
+  final TextEditingController _factionController = TextEditingController();
   Status selectedStatus = Status.painted;
   final List<Miniature> miniatures = [
     Miniature(
@@ -81,6 +83,33 @@ class _MyAppState extends State<MyApp> {
                   child: Text('Painted'),
                 ),
               ],
+            ),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Name:'),
+            ),
+            TextField(
+              controller: _gameController,
+              decoration: const InputDecoration(labelText: 'Game:'),
+            ),
+            TextField(
+              controller: _factionController,
+              decoration: const InputDecoration(labelText: 'Faction:'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  miniatures.add(
+                    Miniature(
+                      name: _nameController.text,
+                      game: _gameController.text,
+                      faction: _factionController.text,
+                      status: selectedStatus,
+                    ),
+                  );
+                });
+              },
+              child: Text('Add miniature'),
             ),
           ],
         ),
