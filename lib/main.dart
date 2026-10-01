@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobby_workshop/models/miniature.dart';
 import 'package:hobby_workshop/widgets/miniature_card.dart';
+import 'package:hobby_workshop/widgets/miniature_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +19,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _gameController = TextEditingController();
-  final TextEditingController _factionController = TextEditingController();
-  Status selectedStatus = Status.painted;
   final List<Miniature> miniatures = [
     Miniature(
       name: 'Captain',
@@ -58,58 +55,12 @@ class _MyAppState extends State<MyApp> {
                   MiniatureCard(miniature: miniature),
               ],
             ),
-            DropdownButton<Status>(
-              value: selectedStatus,
-              onChanged: (value) {
+            MiniatureForm(
+              onAdd: (miniature) {
                 setState(() {
-                  selectedStatus = value!;
+                  miniatures.add(miniature);
                 });
               },
-              items: [
-                DropdownMenuItem<Status>(
-                  value: Status.unassembled,
-                  child: Text('Unassebled'),
-                ),
-                DropdownMenuItem<Status>(
-                  value: Status.assembled,
-                  child: Text('Assembled'),
-                ),
-                DropdownMenuItem<Status>(
-                  value: Status.basecoated,
-                  child: Text('Basecoated'),
-                ),
-                DropdownMenuItem<Status>(
-                  value: Status.painted,
-                  child: Text('Painted'),
-                ),
-              ],
-            ),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name:'),
-            ),
-            TextField(
-              controller: _gameController,
-              decoration: const InputDecoration(labelText: 'Game:'),
-            ),
-            TextField(
-              controller: _factionController,
-              decoration: const InputDecoration(labelText: 'Faction:'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  miniatures.add(
-                    Miniature(
-                      name: _nameController.text,
-                      game: _gameController.text,
-                      faction: _factionController.text,
-                      status: selectedStatus,
-                    ),
-                  );
-                });
-              },
-              child: Text('Add miniature'),
             ),
           ],
         ),
