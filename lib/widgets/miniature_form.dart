@@ -15,6 +15,7 @@ class _MiniatureFormState extends State<MiniatureForm> {
   final TextEditingController _gameController = TextEditingController();
   final TextEditingController _factionController = TextEditingController();
   Status selectedStatus = Status.painted;
+  final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
     _nameController.dispose();
@@ -25,62 +26,86 @@ class _MiniatureFormState extends State<MiniatureForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DropdownButton<Status>(
-          value: selectedStatus,
-          onChanged: (value) {
-            setState(() {
-              selectedStatus = value!;
-            });
-          },
-          items: [
-            DropdownMenuItem<Status>(
-              value: Status.unassembled,
-              child: Text('Unassebled'),
-            ),
-            DropdownMenuItem<Status>(
-              value: Status.assembled,
-              child: Text('Assembled'),
-            ),
-            DropdownMenuItem<Status>(
-              value: Status.basecoated,
-              child: Text('Basecoated'),
-            ),
-            DropdownMenuItem<Status>(
-              value: Status.painted,
-              child: Text('Painted'),
-            ),
-          ],
-        ),
-        TextField(
-          controller: _nameController,
-          decoration: const InputDecoration(labelText: 'Name:'),
-        ),
-        TextField(
-          controller: _gameController,
-          decoration: const InputDecoration(labelText: 'Game:'),
-        ),
-        TextField(
-          controller: _factionController,
-          decoration: const InputDecoration(labelText: 'Faction:'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final miniature = Miniature(
-              name: _nameController.text,
-              game: _gameController.text,
-              faction: _factionController.text,
-              status: selectedStatus,
-            );
-            widget.onAdd(miniature);
-            _nameController.clear();
-            _gameController.clear();
-            _factionController.clear();
-          },
-          child: Text('Add miniature'),
-        ),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          DropdownButton<Status>(
+            value: selectedStatus,
+            onChanged: (value) {
+              setState(() {
+                selectedStatus = value!;
+              });
+            },
+            items: [
+              DropdownMenuItem<Status>(
+                value: Status.unassembled,
+                child: Text('Unassebled'),
+              ),
+              DropdownMenuItem<Status>(
+                value: Status.assembled,
+                child: Text('Assembled'),
+              ),
+              DropdownMenuItem<Status>(
+                value: Status.basecoated,
+                child: Text('Basecoated'),
+              ),
+              DropdownMenuItem<Status>(
+                value: Status.painted,
+                child: Text('Painted'),
+              ),
+            ],
+          ),
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Name cannot be empty';
+              }
+              return null;
+            },
+            controller: _nameController,
+            decoration: const InputDecoration(labelText: 'Name:'),
+          ),
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Game cannot be empty';
+              }
+              return null;
+            },
+            controller: _gameController,
+            decoration: const InputDecoration(labelText: 'Game:'),
+          ),
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Faction cannot be empty';
+              }
+              return null;
+            },
+            controller: _factionController,
+            decoration: const InputDecoration(labelText: 'Faction:'),
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                final miniature = Miniature(
+                  name: _nameController.text.trim(),
+                  game: _gameController.text.trim(),
+                  faction: _factionController.text.trim(),
+                  status: selectedStatus,
+                );
+                widget.onAdd(miniature);
+                _nameController.clear();
+                _gameController.clear();
+                _factionController.clear();
+              }
+            },
+            child: Text('Add miniature'),
+          ),
+        ],
+      ),
     );
   }
 }
