@@ -74,6 +74,9 @@ class _MiniatureFormState extends State<MiniatureForm> {
               status: selectedStatus,
             );
             widget.onAdd(miniature);
+            _nameController.clear();
+            _gameController.clear();
+            _factionController.clear();
           },
           child: Text('Add miniature'),
         ),
