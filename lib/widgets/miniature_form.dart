@@ -100,6 +100,10 @@ class _MiniatureFormState extends State<MiniatureForm> {
                 _nameController.clear();
                 _gameController.clear();
                 _factionController.clear();
+                selectedStatus = Status.painted;
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('Added successfully')));
               }
             },
             child: Text('Add miniature'),

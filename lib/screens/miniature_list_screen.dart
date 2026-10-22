@@ -24,25 +24,25 @@ class _MiniatureListScreenState extends State<MiniatureListScreen> {
       name: 'Terminator squad',
       game: 'Warhammer 40000',
       faction: 'Space Marines',
-      status: Status.painted,
+      status: Status.assembled,
     ),
     Miniature(
       name: 'Redemptor Dreadnought',
       game: 'Warhammer 40000',
       faction: 'Space Marines',
-      status: Status.painted,
+      status: Status.basecoated,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Hobby Workshop')),
       body: Column(
         children: [
           Expanded(
             child: ListView(
               children: [
-                Text('Hobby Workshop'),
                 for (final miniature in miniatures)
                   MiniatureCard(miniature: miniature),
               ],
